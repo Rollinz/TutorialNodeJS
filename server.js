@@ -7,15 +7,22 @@
 // }).listen(8888);
 
 var http = require("http");
+var url = require("url");
 
-function onRequest(request, response){
-    console.log("Peticion recibida.");
-    response.writeHead(200, {"content-type":"text/html"});
-    response.write("Holo NodeJS");
-    response.end();
+function iniciar() {
+    function onRequest(request, response) {
+        var pathname = url.parse(request.url).pathname;
+        console.log("Peticion para " + pathname + " recibida.");
+        
+        route(pathname);
+        
+        response.writeHead(200, {"content-type":"text/html"});
+        response.write("Holo Node JS");
+        response.end();
+    }
+
+    http.createServer(onRequest).listen(8888);
+    console.log("Servidor Iniciado.");
 }
-
-http.createServer(onRequest).listen(8888);
-
-console.log("Servidor Iniciado.");
+exports.iniciar = iniciar;
 
